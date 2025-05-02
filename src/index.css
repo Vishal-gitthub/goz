@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animated";
+
+
+@theme {
+  --color-gold: #f79523;
+  --color-red: #cf2127;
+}
