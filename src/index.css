@@ -1,8 +1,29 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animated";
 
-
 @theme {
   --color-gold: #f79523;
   --color-red: #cf2127;
+  --animate-marquee: marquee 20s linear infinite;
+  --animate-marquee2: marquee2 20s linear infinite;
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes marquee2 {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+}
+html {
+  scroll-behavior: smooth;
 }

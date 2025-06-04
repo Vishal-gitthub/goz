@@ -1,12 +1,11 @@
 import React from 'react';
-import {Facebook, Twitter, Instagram, Mail, MapPin, Phone} from 'lucide-react';
+import { Facebook, Twitter, Instagram, Mail, MapPin, Phone } from 'lucide-react';
 import logo from '/Logo.png';
 import footerBg from '../src/Images/Footer Image/footer_bg.jpg';
 const Footer = () => {
   return (
     <footer
-      className="pt-16 pb-12 border-t text-white"
-      style={{backgroundImage: `url(${footerBg})`}}
+      className="bg-gradient-to-b from-black to-[#A8A8A8] pt-16 pb-12 border-gray-700/5 border-t text-white"
     >
       <div className="mx-auto px-4 container">
         <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -69,7 +68,7 @@ const Footer = () => {
                 Best sales
               </a>
               <a
-                href="/contact-us"
+                href="/contact"
                 className="block mb-2 hover:text-gray-200 transition-colors duration-200"
               >
                 Contact us

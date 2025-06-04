@@ -6,10 +6,11 @@ import 'swiper/css/pagination';
 import { FreeMode, Navigation } from 'swiper/modules';
 import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaCartPlus } from 'react-icons/fa';
-import { FetchContext } from '../../../Context API/FetchContext';
+import { FetchContext } from '../../../Context API/Context';
+import { Link } from 'react-router-dom';
 
 const Sub_Necklaces = () => {
-  const { ApiData } = useContext(FetchContext);
+  const { ApiData, AddToCart, IsInWishlist, RemoveFromWishlist, AddToWishlist } = useContext(FetchContext);
   const [ProductData] = ApiData || [];
 
   const necklaceProducts = ProductData?.filter(product =>
@@ -48,15 +49,17 @@ const Sub_Necklaces = () => {
           <SwiperSlide key={index}>
             <div className="group bg-gradient-to-b from-white/10 to-white/5 shadow-md p-3 border border-white/10 rounded-2xl w-[160px] sm:w-[180px] md:w-[200px] lg:w-[220px] transition-transform duration-300">
               <div className="mb-3 rounded-xl w-full h-44 overflow-hidden">
-                <img
-                  src={data.image}
-                  alt={data.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/200x300?text=No+Image';
-                  }}
-                />
+                <Link to={`/product/${data.id}`}>
+                  <img
+                    src={data.image}
+                    alt={data.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/200x300?text=No+Image';
+                    }}
+                  />
+                </Link>
               </div>
               <h2 className="mb-1 font-semibold text-white text-base line-clamp-2">
                 {data.title}
@@ -68,10 +71,17 @@ const Sub_Necklaces = () => {
                   {data.rating}
                 </p>
                 <div className="flex items-center gap-2">
-                  <button className="hover:text-gold transition-colors">
-                    <CiHeart size={22} color="white" />
+                  <button className="hover:text-gold transition-colors cursor-pointer" onClick={() => {
+                    if (IsInWishlist(data.id)) {
+                      RemoveFromWishlist(data.id)
+                    }
+                    else {
+                      AddToWishlist(data)
+                    }
+                  }}>
+                    <CiHeart size={22} className={`text-lg ${IsInWishlist(data.id) ? "fill-red text-red" : "text-white"}`} />
                   </button>
-                  <button className="hover:text-gold transition-colors">
+                  <button className="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-lg text-white text-sm transition-colors cursor-pointer" onClick={() => AddToCart(data)} >
                     <FaCartPlus size={22} color="white" />
                   </button>
                 </div>

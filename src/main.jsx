@@ -1,12 +1,12 @@
 // main.jsx
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
-import {BrowserRouter} from 'react-router-dom';
-import {DataProvider} from './Context API/FetchContext.jsx'; // Ensure correct named import
+import { BrowserRouter } from 'react-router-dom';
+import { DataProvider } from './Context API/Context.jsx'; // Ensure correct named import
 
-createRoot (document.getElementById ('root')).render (
+createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <DataProvider>

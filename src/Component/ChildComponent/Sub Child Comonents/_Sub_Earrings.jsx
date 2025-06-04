@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -6,12 +6,14 @@ import 'swiper/css/pagination';
 import { FreeMode, Navigation } from 'swiper/modules';
 import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaCartPlus } from 'react-icons/fa';
-import { FetchContext } from '../../../Context API/FetchContext';
+import { FetchContext } from '../../../Context API/Context';
 
 const Sub_Earrings = () => {
-  const { ApiData } = useContext(FetchContext);
+  const { ApiData, Cart, AddToCart, RemoveFromCart, UpdateCartItemQuantity, Wishlist, AddToWishlist, RemoveFromWishlist, IsInWishlist } = useContext(FetchContext);
   const [ProductData] = ApiData || [];
-
+  useEffect(() => {
+    console.log(Cart);
+  }, [Cart])
   const earringProducts = ProductData?.filter(product =>
     product.categories?.some(category =>
       category.name.toLowerCase().includes("earring") ||
@@ -46,6 +48,7 @@ const Sub_Earrings = () => {
       >
         {productsToDisplay.map((data, index) => (
           <SwiperSlide key={index}>
+
             <div className="group bg-gradient-to-b from-white/10 to-white/5 shadow-md p-3 border border-white/10 rounded-2xl w-[160px] sm:w-[180px] md:w-[200px] lg:w-[220px] transition-transform duration-300">
               <div className="mb-3 rounded-xl w-full h-44 overflow-hidden">
                 <img
@@ -64,8 +67,20 @@ const Sub_Earrings = () => {
                   {data.rating}
                 </p>
                 <div className="flex items-center gap-2">
-                  <CiHeart size={22} color="white" />
-                  <FaCartPlus size={22} color="white" />
+                  <button onClick={() => {
+                    if (IsInWishlist(data.id)) {
+                      RemoveFromWishlist(data.id)
+                    }
+                    else {
+                      AddToWishlist(data)
+                    }
+                  }}
+                    className="bg-black/50 hover:bg-black/80 p-2 rounded-full transition-colors cursor-pointer">
+                    <CiHeart size={22} color="white" className={`text-lg ${IsInWishlist(data.id) ? "text-red-500 fill-red-500" : 'text-white'}`} />
+                  </button>
+                  <button onClick={() => AddToCart(data)} className="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-lg text-white text-sm transition-colors cursor-pointer">
+                    <FaCartPlus size={22} color="white" />
+                  </button>
                 </div>
               </div>
             </div>

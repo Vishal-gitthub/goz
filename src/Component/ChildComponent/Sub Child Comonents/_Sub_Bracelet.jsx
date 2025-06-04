@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -6,11 +6,14 @@ import 'swiper/css/pagination';
 import { FreeMode, Navigation } from 'swiper/modules';
 import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaCartPlus } from 'react-icons/fa';
-import { FetchContext } from '../../../Context API/FetchContext';
+import { FetchContext } from '../../../Context API/Context';
 
 const Sub_Bracelet = () => {
-  const { ApiData } = useContext(FetchContext);
+  const { ApiData, AddToCart, Cart, IsInWishlist, RemoveFromWishlist, AddToWishlist } = useContext(FetchContext);
   const [ProductData] = ApiData || [];
+  useEffect(() => {
+    console.log(Cart)
+  }, [Cart])
 
   const bracelet_products = ProductData?.filter(data =>
     data.categories?.some(category =>
@@ -64,15 +67,29 @@ const Sub_Bracelet = () => {
                   {data.rating}
                 </p>
                 <div className="flex items-center gap-2">
-                  <CiHeart size={22} color="white" />
-                  <FaCartPlus size={22} color="white" />
+
+                  <button onClick={() => {
+                    if (IsInWishlist(data.id)) {
+                      RemoveFromWishlist(data.id)
+                    }
+                    else {
+                      AddToWishlist(data)
+                    }
+                  }}
+                    className="bg-black/50 hover:bg-black/80 p-2 rounded-full transition-colors cursor-pointer">
+                    <CiHeart size={22} color="white" className={`text-lg ${IsInWishlist(data.id) ? "text-red fill-red" : 'text-white'}`} />
+                  </button>
+
+                  <button onClick={() => AddToCart(data)} className="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-lg text-white text-sm transition-colors cursor-pointer">
+                    <FaCartPlus size={22} color="white" />
+                  </button>
                 </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </div >
   );
 };
 
